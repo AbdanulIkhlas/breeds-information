@@ -1,16 +1,31 @@
-# responsi_123210009
+# Breeds Information | Responsi Praktikum Mobile | Semester 6
 
-A new Flutter project.
+## Deskripsi
 
-## Getting Started
+Membuat aplikasi yang memberikan informasi mengenai anjing.
 
-This project is a starting point for a Flutter application.
 
-A few resources to get you started if this is your first Flutter project:
+Syarat aplikasi adalah : 
+- Adanya login dan register dengan penyimpanan lokal (DATABASE)
+- Menyimpan anjing yang terfavorit secara lokal (SHARED PREFERENCES)
+- membaca api yang tersedia
+- Membuat tampilan yang bagus
+- BASE URL =  https://dogapi.dog/api/v2
+- DOKUMENTASI API : https://dogapi.dog/docs/api-v2
 
-- [Lab: Write your first Flutter app](https://docs.flutter.dev/get-started/codelab)
-- [Cookbook: Useful Flutter samples](https://docs.flutter.dev/cookbook)
 
-For help getting started with Flutter development, view the
-[online documentation](https://docs.flutter.dev/), which offers tutorials,
-samples, guidance on mobile development, and a full API reference.
+<div align="center" style="display: flex; justify-content: center;">
+  <h1>Tampilan</h1>
+</div>
+
+<div align="center" style="display: flex; justify-content: center;">
+  <img src="./docs/docs1.png" alt="docs1" width="267">&nbsp;
+  <img src="./docs/docs2.png" alt="docs2" width="270">&nbsp;
+  <img src="./docs/docs3.png" alt="docs2" width="270">&nbsp;
+</div>
+<br>
+<div align="center" style="display: flex; justify-content: center;">
+  <img src="./docs/docs4.png" alt="docs1" width="267">&nbsp;
+  <img src="./docs/docs5.png" alt="docs2" width="270">&nbsp;
+  <img src="./docs/docs6.png" alt="docs2" width="270">&nbsp;
+</div>
