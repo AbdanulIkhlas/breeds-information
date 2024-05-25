@@ -1,56 +1,26 @@
 import 'package:flutter/material.dart';
 import 'package:hive_flutter/hive_flutter.dart';
-import 'package:shared_preferences/shared_preferences.dart';
-import './homePage.dart';
+import './login.dart';
 import '../main.dart';
 import '../model/login_model.dart';
-import './register.dart';
 
-class LoginPage extends StatefulWidget {
-  const LoginPage({Key? key});
+class RegisterPage extends StatefulWidget {
+  const RegisterPage({super.key});
 
   @override
-  _LoginPageState createState() => _LoginPageState();
+  State<RegisterPage> createState() => _RegisterPageState();
 }
 
-class _LoginPageState extends State<LoginPage> {
+class _RegisterPageState extends State<RegisterPage> {
   final TextEditingController userController = TextEditingController();
   final TextEditingController passController = TextEditingController();
-
-  late SharedPreferences loginData;
-  late bool newUser;
-
-  @override
-  void initState() {
-    super.initState();
-    checkIfAlreadyLoggedIn();
-  }
-
-  void checkIfAlreadyLoggedIn() async {
-    loginData = await SharedPreferences.getInstance();
-    newUser = (loginData.getBool('login') ?? true);
-    print("new user = $newUser");
-    if (!newUser) {
-      Navigator.pushReplacement(
-        context,
-        MaterialPageRoute(builder: (context) => HomePage()),
-      );
-    }
-  }
-
-  @override
-  void dispose() {
-    userController.dispose();
-    passController.dispose();
-    super.dispose();
-  }
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
         title: Text(
-          "LOGIN MENU",
+          "REGISTER MENU",
           style: TextStyle(color: Colors.white, fontWeight: FontWeight.bold),
         ),
         backgroundColor: Color(0xFF1B1A55),
@@ -73,7 +43,7 @@ class _LoginPageState extends State<LoginPage> {
                 mainAxisAlignment: MainAxisAlignment.center,
                 children: [
                   Text(
-                    'LOGIN',
+                    'DAFTAR AKUN',
                     style: TextStyle(
                       fontSize: 30,
                       color: Colors.white,
@@ -81,7 +51,7 @@ class _LoginPageState extends State<LoginPage> {
                     ),
                   ),
                   SizedBox(height: 32.0),
-                  Icon(Icons.login, size: 100, color: Colors.white),
+                  Icon(Icons.app_registration, size: 100, color: Colors.white),
                   SizedBox(height: 32.0),
                   Padding(
                     padding: const EdgeInsets.symmetric(horizontal: 20.0),
@@ -125,55 +95,84 @@ class _LoginPageState extends State<LoginPage> {
                   ),
                   SizedBox(height: 32.0),
                   ElevatedButton(
-                    onPressed: () {
+                    onPressed: () async {
                       String user = userController.text;
                       String pass = passController.text;
-                      var box = Hive.box<LoginModel>(loginBox);
+                      if (user.isNotEmpty && pass.isNotEmpty) {
+                        var box = Hive.box<LoginModel>(loginBox);
+                        if (!box.containsKey(user)) {
+                          var newAkun = LoginModel(username: user, password: pass);
+                          await box.put(user, newAkun);
 
-                      for (var item in box.values) {
-                        if (item.username == user && item.password == pass) {
-                          print("LOGIN SUCCESSFUL");
-                          loginData.setBool('login', false);
-                          loginData.setString('username', user);
-                          Navigator.pushReplacement(
-                            context,
-                            MaterialPageRoute(builder: (context) => HomePage()),
-                          );
-                          return;
-                        }
-                      }
-
-                      showDialog(
-                        context: context,
-                        builder: (context) => AlertDialog(
-                          title: Text('Error'),
-                          content: Text('Incorrect username or password.'),
-                          actions: [
-                            TextButton(
-                              onPressed: () => Navigator.of(context).pop(),
-                              child: Text('OK'),
+                          print("REGISTRATION SUCCESSFUL");
+                          showDialog(
+                            context: context,
+                            builder: (context) => AlertDialog(
+                              title: Text('Success'),
+                              content: Text('Registration Successful'),
+                              actions: [
+                                TextButton(
+                                  onPressed: () {
+                                    Navigator.of(context).pop();
+                                    Navigator.pushReplacement(
+                                      context,
+                                      MaterialPageRoute(builder: (context) => LoginPage()),
+                                    );
+                                  },
+                                  child: Text('OK'),
+                                ),
+                              ],
                             ),
-                          ],
-                        ),
-                      );
+                          );
+                        } else {
+                          print("REGISTRATION FAILED");
+                          showDialog(
+                            context: context,
+                            builder: (context) => AlertDialog(
+                              title: Text('Error'),
+                              content: Text('Username already exists!'),
+                              actions: [
+                                TextButton(
+                                  onPressed: () => Navigator.of(context).pop(),
+                                  child: Text('OK'),
+                                ),
+                              ],
+                            ),
+                          );
+                        }
+                        print(box.keys);
+                      } else {
+                        print("REGISTRATION FAILED");
+                        showDialog(
+                          context: context,
+                          builder: (context) => AlertDialog(
+                            title: Text('Error'),
+                            content: Text('Pastikan username dan password tidak kosong !'),
+                            actions: [
+                              TextButton(
+                                onPressed: () => Navigator.of(context).pop(),
+                                child: Text('OK'),
+                              ),
+                            ],
+                          ),
+                        );
+                      }
                     },
-                    child: Text('Login'),
+                    child: Text('Register'),
                   ),
                   SizedBox(height: 20),
                   Text(
-                    "Register dahulu jika belum ada akun !",
+                    "Sudah ada akun ?",
                     style: TextStyle(color: Colors.white70),
                   ),
                   ElevatedButton(
                     onPressed: () {
                       Navigator.push(
                         context,
-                        MaterialPageRoute(
-                          builder: (context) => RegisterPage(),
-                        ),
+                        MaterialPageRoute(builder: (context) => LoginPage()),
                       );
                     },
-                    child: Text('Register'),
+                    child: Text('Login'),
                   ),
                 ],
               ),

@@ -1,24 +1,30 @@
 import 'package:flutter/material.dart';
-import 'pages/login.dart';
+import 'package:hive_flutter/hive_flutter.dart';
+import './pages/login.dart';
+import './model/login_model.dart';
 
-void main() {
+String loginBox = 'loginBox';
+
+void main() async {
+  await Hive.initFlutter();
+  Hive.registerAdapter<LoginModel>(LoginModelAdapter());
+  await Hive.openBox<LoginModel>(loginBox);
   runApp(const MyApp());
 }
 
 class MyApp extends StatelessWidget {
   const MyApp({super.key});
 
-  // This widget is the root of your application.
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
-      title: 'Responsi Prak Mobile',
-      debugShowCheckedModeBanner: false,
+      debugShowCheckedModeBanner: false, 
+      title: 'RESPONSI 123210009',
       theme: ThemeData(
-        colorScheme: ColorScheme.fromSeed(seedColor: Colors.deepPurple),
+        colorScheme: ColorScheme.fromSeed(seedColor: Colors.teal),
         useMaterial3: true,
       ),
-      home: const LoginPage(),
+      home: LoginPage(),
     );
   }
 }

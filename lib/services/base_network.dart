@@ -1,11 +1,8 @@
 import 'package:http/http.dart' as http;
 import 'dart:convert';
-import '../model/categories.dart';
-import '../model/model_filter.dart';
-import '../model/model_lookup.dart';
 
 class BaseNetwork {
-  static final String _baseUrl = "https://www.themealdb.com/api/json/v1/1/";
+  static final String _baseUrl = "https://dogapi.dog/api/v2/";
 
   static Future<Map<String, dynamic>> get(String partUrl) async {
     final String fullUrl = _buildFullUrl(partUrl);

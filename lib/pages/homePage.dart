@@ -1,117 +1,48 @@
 import 'package:flutter/material.dart';
-import 'package:shared_preferences/shared_preferences.dart';
-import '../main.dart';
-import './category_page.dart';
+import './breeds_page.dart';
+import './breeds_favorite.dart';
 
-class Homepage extends StatefulWidget {
-  const Homepage({Key? key});
-
+class HomePage extends StatefulWidget {
   @override
-  State<Homepage> createState() => _HomepageState();
+  _HomePageState createState() => _HomePageState();
 }
 
-class _HomepageState extends State<Homepage> {
-  late SharedPreferences logindata;
-  late String username = "";
+class _HomePageState extends State<HomePage> {
+  int _selectedIndex = 0;
 
-  @override
-  void initState() {
-    super.initState();
-    initial();
-  }
+  static List<Widget> _widgetOptions = <Widget>[
+    BreedPage(),
+    FavoritePage(),
+  ];
 
-  void initial() async {
-    logindata = await SharedPreferences.getInstance();
+  void _onItemTapped(int index) {
     setState(() {
-      username = logindata.getString('username')!;
+      _selectedIndex = index;
     });
-  }
-
-  void logout() {
-    logindata.setBool('login', true);
-    logindata.remove('username');
-    Navigator.pushReplacement(
-        context,
-        MaterialPageRoute(
-          builder: (context) => MyApp(),
-        ));
   }
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppBar(
-        title: Text(
-          "Menu Utama",
-          style: TextStyle(color: Colors.white, fontWeight: FontWeight.bold),
-        ),
-        backgroundColor: Colors.teal,
-        actions: [
-          TextButton(
-            onPressed: () {
-              logout();
-            },
-            child: Text(
-              "LOGOUT",
-              style: TextStyle(
-                  color: Colors.white,
-                  fontWeight: FontWeight.bold,
-                  fontSize: 20),
-            ),
-          ),
-          IconButton(
-              onPressed: () {
-                logout();
-              },
-              icon: Icon(Icons.logout_sharp))
-        ],
+      body: Center(
+        child: _widgetOptions.elementAt(_selectedIndex),
       ),
-      body: Container(
-        decoration: BoxDecoration(
-          gradient: LinearGradient(
-            begin: Alignment.topCenter,
-            end: Alignment.bottomCenter,
-            colors: [Colors.teal.shade400, Colors.teal.shade200],
+      bottomNavigationBar: BottomNavigationBar(
+        items: const <BottomNavigationBarItem>[
+          BottomNavigationBarItem(
+            icon: Icon(Icons.home_filled),
+            label: 'Daftar Anjing',
           ),
-        ),
-        child: Center(
-          child: Column(
-            mainAxisAlignment: MainAxisAlignment.center,
-            crossAxisAlignment: CrossAxisAlignment.center,
-            children: [
-              Text(
-                "Halo $username!",
-                style: TextStyle(
-                  fontSize: 20,
-                  fontWeight: FontWeight.bold,
-                  color: Colors.white,
-                ),
-              ),
-              SizedBox(height: 50.0),
-              ElevatedButton(
-                onPressed: () {
-                  Navigator.push(
-                      context,
-                      MaterialPageRoute(
-                        builder: (context) => CategoryPage(),
-                      ));
-                },
-                child: Text(
-                  'List Category Meal',
-                  style: TextStyle(color: Colors.white),
-                ),
-                style: ElevatedButton.styleFrom(
-                  backgroundColor: Colors.teal,
-                  minimumSize: Size(
-                    MediaQuery.of(context).size.width * 0.6,
-                    40,
-                  ),
-                ),
-              ),
-            ],
+          BottomNavigationBarItem(
+            icon: Icon(Icons.favorite),
+            label: 'Favorite',
           ),
-        ),
+        ],
+        currentIndex: _selectedIndex,
+        selectedItemColor: Color(0xFF26257A),
+        onTap: _onItemTapped,
       ),
     );
   }
 }
+
