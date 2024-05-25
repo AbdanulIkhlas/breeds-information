@@ -4,15 +4,14 @@
 
 Membuat aplikasi yang memberikan informasi mengenai anjing.
 
+Syarat aplikasi adalah :
 
-Syarat aplikasi adalah : 
 - Adanya login dan register dengan penyimpanan lokal (DATABASE)
 - Menyimpan anjing yang terfavorit secara lokal (SHARED PREFERENCES)
 - membaca api yang tersedia
 - Membuat tampilan yang bagus
-- BASE URL =  https://dogapi.dog/api/v2
+- BASE URL = https://dogapi.dog/api/v2
 - DOKUMENTASI API : https://dogapi.dog/docs/api-v2
-
 
 <div align="center" style="display: flex; justify-content: center;">
   <h1>Tampilan</h1>
