@@ -1,8 +1,9 @@
-# Responsi | 123210009 | Muhammad Abdanul Ikhlas
+# Breeds Information | Responsi Praktikum Mobile | Semester 6
 
 ## Deskripsi
 
 Membuat aplikasi yang memberikan informasi mengenai anjing.
+
 
 Syarat aplikasi adalah : 
 - Adanya login dan register dengan penyimpanan lokal (DATABASE)
